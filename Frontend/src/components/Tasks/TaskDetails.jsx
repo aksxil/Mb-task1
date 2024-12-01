@@ -59,7 +59,7 @@ const TaskDetails = () => {
       try {
         await API.delete(`/tasks/${id}`);
         alert('Task deleted successfully');
-        navigate('/');
+        navigate('/dashboard'); // Navigate to dashboard on success
       } catch (err) {
         console.error(err.response?.data?.error || 'Error deleting task');
       }
@@ -99,7 +99,7 @@ const TaskDetails = () => {
             <input
               type="date"
               name="dueDate"
-              value={formData.dueDate.slice(0, 10)} // Format date for input field
+              value={formData.dueDate.slice(0, 10)}
               onChange={handleInputChange}
               className="w-full border p-2 rounded"
               required
@@ -131,7 +131,6 @@ const TaskDetails = () => {
           <p><strong>Due Date:</strong> {new Date(task.dueDate).toLocaleDateString()}</p>
           <p><strong>Status:</strong> {task.status}</p>
           <p><strong>Priority:</strong> {task.priority}</p>
-          
         </div>
       )}
       <div className="mt-4 flex space-x-4">

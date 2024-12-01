@@ -10,14 +10,20 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(''); // Reset error state before login attempt
 
     try {
-      const response = await API.post('/auth/login', { email, password }); // Call your login API
-      localStorage.setItem('authToken', response.data.token); // Save token to localStorage
+      // Make POST request to /auth/login
+      const response = await API.post('/auth/login', { email, password });
+
+      // Save token to localStorage
+      localStorage.setItem('authToken', response.data.token);
+
       alert('Login successful!');
       navigate('/dashboard'); // Redirect to the dashboard
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      console.error('Error logging in:', err.response?.data?.error || err.message);
+      setError(err.response?.data?.error || 'Invalid email or password');
     }
   };
 

@@ -29,7 +29,7 @@ const createTask = async (req, res) => {
 // Get all tasks for the logged-in user
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ assignedUserId: req.user._id }).sort({ dueDate: 1 });
+    const tasks = await Task.find();
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -99,12 +99,15 @@ const deleteTask = async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized access.' });
     }
 
-    await task.remove();
+    // Use deleteOne() instead of remove()
+    await task.deleteOne();
+
     res.status(200).json({ message: 'Task deleted successfully.' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 module.exports = {
   createTask,
